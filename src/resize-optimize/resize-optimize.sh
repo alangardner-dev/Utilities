@@ -140,14 +140,13 @@ done
 
 # Get the final size of the IMAGE_DIRECTORY
 final_size=$(get_total_size "$IMAGE_DIRECTORY")
-
-echo "Image resizing and optimization completed."
 echo ""
+echo "Image resizing and optimization completed."
 echo "End time: $(date +"%Y-%m-%d %H:%M:%S")"
 echo ""
 Dir_size_before=$(convert_to_bytes "$initial_size")
 Dir_size_after=$(convert_to_bytes "$final_size")
 result=$((Dir_size_before - Dir_size_after))
 echo "Initial Size: $initial_size"
-echo "Final Size:   $final_size"
-echo "You saved:     $(convert_to_human_readable $result)"
+echo "  Final Size: $final_size"
+echo "   You saved: $(convert_to_human_readable $result)"

@@ -31,11 +31,11 @@ Resized and optimized: ./Screenshot 2024-01-04 at 1.10.13 PM.png
 Resized and optimized: ./Screenshot 2024-01-04 at 1.09.58 PM.png
 Resized and optimized: ./Screenshot 2024-01-04 at 1.09.54 PM.png
 Resized and optimized: ./Screenshot 2024-01-04 at 1.10.05 PM.png
-Image resizing and optimization completed.
 
+Image resizing and optimization completed.
 End time: 2024-01-04 13:10:35
 
 Initial Size: 102M
-Final Size:    89M
-You saved:     13MB
+  Final Size: 89M
+   You saved: 13MB
 ```
