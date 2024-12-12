@@ -6,7 +6,7 @@ This script will resize all images with a width larger than the value provided o
 
 **Language**: Bash
 
-**Dependencies**: [jpegoptim](https://github.com/tjko/jpegoptim), [mogrify](https://github.com/elixir-mogrify/mogrify), [gifsicle](http://www.lcdf.org/gifsicle/) and [pngquant](https://pngquant.org)
+**Dependencies**: [jpegoptim](https://github.com/tjko/jpegoptim), [ImageMagick](https://github.com/ImageMagick/ImageMagick), [mogrify](https://github.com/elixir-mogrify/mogrify), [gifsicle](http://www.lcdf.org/gifsicle/) and [pngquant](https://pngquant.org)
 
 ### Usage:
 

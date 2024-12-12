@@ -16,7 +16,7 @@ if [[ ! $IMAGE_WIDTH =~ ^[0-9]+$ ]]; then
   echo "$IMAGE_WIDTH is not a valid number."
   exit 1
 fi
- 
+
 # Function to check if a command is available
 check_dependency() {
   local command_name="$1"
@@ -48,7 +48,7 @@ convert_to_bytes() {
   local size_with_unit="$1"
   local unit="${size_with_unit: -1}"  # Get the last character (unit)
   local size="${size_with_unit%?}"    # Remove the last character (unit)
-  
+
   case "$unit" in
     K)
       echo $((size * 1024))
@@ -97,7 +97,7 @@ find "$IMAGE_DIRECTORY" -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.
     if [ "$width" -gt "$MAX_WIDTH" ]; then
         # Resize the image to the maximum width and reduce quality (JPEG/JPG only)
         if [[ "$image" =~ \.jpe?g$ ]]; then
-            convert "$image" -resize "$MAX_WIDTH"x -quality 80% "$image"
+            magick "$image" -resize "$MAX_WIDTH"x -quality 80% "$image"
         else
             # For PNG and GIF, just resize without changing the format
             mogrify -resize "$MAX_WIDTH"x "$image"
