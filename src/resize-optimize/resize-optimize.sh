@@ -56,11 +56,11 @@ convert_to_bytes() {
 convert_to_human_readable() {
   local bytes="$1"
 
-  if ((bytes < 1024)); then
+  if [ $(echo "$bytes < 1024" | bc) -eq 1 ]; then
     echo "${bytes}B"
-  elif ((bytes < 1024 * 1024)); then
+  elif [ $(echo "$bytes < 1024 * 1024" | bc) -eq 1 ]; then
     echo "$(echo "scale=2; $bytes / 1024" | bc)KB"
-  elif ((bytes < 1024 * 1024 * 1024)); then
+  elif [ $(echo "$bytes < 1024 * 1024 * 1024" | bc) -eq 1 ]; then
     echo "$(echo "scale=2; $bytes / 1024 / 1024" | bc)MB"
   else
     echo "$(echo "scale=2; $bytes / 1024 / 1024 / 1024" | bc)GB"
@@ -71,7 +71,7 @@ check_dependency "jpegoptim"
 check_dependency "mogrify"
 check_dependency "gifsicle"
 check_dependency "pngquant"
-check_dependency "magick"
+check_dependency "magick" "convert"
 check_dependency "cwebp"
 
 image_dir_initial_size=$(get_total_size "$IMAGE_DIRECTORY")
@@ -82,9 +82,10 @@ echo ""
 find "$IMAGE_DIRECTORY" -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.png -o -iname \*.gif -o -iname \*.webp \) | while read -r image; do
     width=$(identify -format "%w" "$image")
 
+
     if [ "$width" -gt "$MAX_WIDTH" ]; then
         if [[ "$image" =~ \.jpe?g$ ]]; then
-            magick "$image" -resize "$MAX_WIDTH"x -quality 90% "$image"
+            convert "$image" -resize "$MAX_WIDTH"x -quality 90% "$image"
         else
             mogrify -resize "$MAX_WIDTH"x "$image"
         fi
@@ -96,7 +97,11 @@ find "$IMAGE_DIRECTORY" -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.
         elif [[ "$image" =~ \.jpe?g$ ]]; then
             jpegoptim --max=80 --strip-all "$image"
         elif [[ "$image" =~ \.webp$ ]]; then
-            cwebp -q 80 "$image" -o "$image"
+            if command -v magick &> /dev/null; then
+                magick "$image" -resize "$MAX_WIDTH"x -quality 90% "$image"
+            else
+                convert "$image" -resize "$MAX_WIDTH"x -quality 90% "$image"
+            fi
         fi
 
         echo ""
@@ -112,7 +117,11 @@ find "$IMAGE_DIRECTORY" -type f \( -iname \*.jpg -o -iname \*.jpeg -o -iname \*.
         elif [[ "$image" =~ \.jpe?g$ ]]; then
             jpegoptim --max=80 --strip-all "$image"
         elif [[ "$image" =~ \.webp$ ]]; then
-            cwebp -q 80 "$image" -o "$image"
+          if command -v magick &> /dev/null; then
+              magick "$image" -resize "$MAX_WIDTH"x -quality 90% "$image"
+          else
+            convert "$image" -quality 80% "$image"
+          fi
         fi
     fi
 done
